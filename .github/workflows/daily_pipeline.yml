@@ -1,0 +1,3 @@
+git add .github/workflows/daily_pipeline.yml
+git commit -m "Add GitHub Actions workflow for daily ETL"
+git push
