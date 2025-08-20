@@ -10,6 +10,9 @@ def main():
     print("🔹 Running ETL pipeline...")
     subprocess.run(["python", "ETL_Pipeline.py"], check=True)
 
+    print("🔹 Running Analytics...")
+    subprocess.run(["python", "Analytics.py"], check=True)
+
     print("Pipeline completed successfully!")
 
 if __name__ == "__main__":
