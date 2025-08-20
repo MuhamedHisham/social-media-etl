@@ -1,3 +1,27 @@
-git add .github/workflows/daily_pipeline.yml
-git commit -m "Add GitHub Actions workflow for daily ETL"
-git push
+name: Daily Social Media ETL
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # Every day at 2 AM UTC
+  workflow_dispatch:  # Manual trigger option
+
+jobs:
+  run-etl:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: |
+          pip install pandas requests boto3
+
+      - name: Run pipeline
+        run: |
+          python run_pipeline.py
