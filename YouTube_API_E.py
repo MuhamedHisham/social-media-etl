@@ -2,13 +2,11 @@ import requests
 import pandas as pd
 import os
 
-# ---- CONFIG ----
-API_KEY = "AIzaSyCiMQzOEiVUsU8T0kcrY5NtHo6M-KQjZ6o"  # Replace with your key
-KEYWORDS = ["Quantum Computing", "AI", "Evolution Theory"]  # Random search queries
-MAX_RESULTS = 15  # Max per keyword
+API_KEY = "AIzaSyCiMQzOEiVUsU8T0kcrY5NtHo6M-KQjZ6o"
+KEYWORDS = ["Quantum Computing", "AI", "Evolution Theory"]
+MAX_RESULTS = 15
 OUTPUT_FILE = "YouTube_API_L.csv"
 
-# ---- STEP 0: Load existing CSV if exists ----
 if os.path.exists(OUTPUT_FILE):
     existing_df = pd.read_csv(OUTPUT_FILE)
     existing_video_ids = set(existing_df['Video_ID'].astype(str))
@@ -18,7 +16,6 @@ else:
 
 rows = []
 
-# ---- STEP 1: Fetch videos per keyword ----
 for query in KEYWORDS:
     search_url = (
         f"https://www.googleapis.com/youtube/v3/search"
@@ -31,20 +28,19 @@ for query in KEYWORDS:
     for item in videos:
         video_id = item["id"]["videoId"]
         if video_id in existing_video_ids:
-            continue  # skip duplicates
+            continue
 
         snippet = item["snippet"]
         title = snippet["title"]
         published_at = snippet["publishedAt"]
 
-        # Fetch video statistics
         stats_url = f"https://www.googleapis.com/youtube/v3/videos?part=statistics&id={video_id}&key={API_KEY}"
         stats_response = requests.get(stats_url).json()
         stats = stats_response["items"][0]["statistics"]
 
         likes = int(stats.get("likeCount", 0))
         comments = int(stats.get("commentCount", 0))
-        shares = 0  # YouTube API does not provide shares
+        shares = 0
         engagement = likes + comments + shares
 
         rows.append({
@@ -58,7 +54,6 @@ for query in KEYWORDS:
             "Platform": "YouTube"
         })
 
-# ---- STEP 2: Append new rows to existing CSV ----
 if rows:
     new_df = pd.DataFrame(rows)
     if not existing_df.empty:
@@ -66,6 +61,6 @@ if rows:
     else:
         updated_df = new_df
     updated_df.to_csv(OUTPUT_FILE, index=False)
-    print(f"✅ Added {len(new_df)} new videos. Total videos: {len(updated_df)}")
+    print(f"Added {len(new_df)} new videos. Total videos: {len(updated_df)}")
 else:
-    print("✅ No new videos to add. CSV is up-to-date.")
+    print("No new videos to add. CSV is up-to-date.")
