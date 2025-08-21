@@ -21,10 +21,8 @@ Data-Engineering-Project/
 
 ⚙️ Installation
 Clone this repository:
-
 git clone https://github.com/your-username/data-engineering-pipeline.git
 cd data-engineering-pipeline
-
 
 Create and activate a virtual environment:
 
@@ -32,13 +30,11 @@ python -m venv venv
 source venv/bin/activate   # Linux / Mac
 venv\Scripts\activate      # Windows
 
-
 Install dependencies:
 
 pip install -r requirements.txt
 
 ▶️ Usage
-
 Run the pipeline step by step or all at once:
 
 1. Extract
@@ -74,9 +70,9 @@ title	views	likes	comments	engagement	date	platform	channel_id	video_id
 Ditching Microsoft for Startup	243	12	0	255.0	2025-05-09 09:00:32	YouTube	UC8butISFwT-Wl7EV0hUK0BQ	FHLmuNj20
 📌 Notes
 
-The CSV files in Extracted_files/ must be provided before running the pipeline.
+The CSV files in the same must be provided before running the pipeline.
 
-All outputs will be generated in the Transformed_files/ directory.
+All outputs will be generated in the same directory.
 
 Final dataset is saved as unified_posts_transformed.csv.
 
